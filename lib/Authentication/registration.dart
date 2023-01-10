@@ -1,6 +1,6 @@
+import 'package:eazz/Authentication/verification.dart';
+import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/material.dart';
-
-import 'Verification.dart';
 
 class Registration extends StatefulWidget {
   const Registration({super.key});
@@ -9,7 +9,17 @@ class Registration extends StatefulWidget {
   State<Registration> createState() => _RegistrationState();
 }
 
+GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
 class _RegistrationState extends State<Registration> {
+  String phoneNumber = '';
+  String numberCode = '';
+  String fullPhoneNumber = '';
+  final countryPicker = const FlCountryCodePicker();
+  CountryCode? countryCode;
+  final phoneNumberTextController = TextEditingController();
+  final countryTextController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,16 +34,6 @@ class _RegistrationState extends State<Registration> {
             child: Image.asset('assets/Appbar_logo.png', fit: BoxFit.cover),
           )),
       body: registrationUI(context),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const Verification()),
-          );
-        },
-        backgroundColor: Colors.orange,
-        child: const Icon(Icons.arrow_forward),
-      ),
     );
   }
 
@@ -61,48 +61,71 @@ class _RegistrationState extends State<Registration> {
           ),
           Container(
             alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.symmetric(vertical: 15),
+            padding: const EdgeInsets.symmetric(vertical: 30),
             child: Column(
               // ignore: prefer_const_literals_to_create_immutables
               children: <Widget>[
                 SizedBox(
                   width: 300,
                   child: TextFormField(
-                    decoration: const InputDecoration(labelText: 'Country'),
-                    keyboardType: TextInputType.text,
+                    textInputAction: TextInputAction.done,
+                    keyboardType: TextInputType.number,
+                    controller: phoneNumberTextController,
+                    maxLines: 1,
+                    onFieldSubmitted: ((value) {
+                      if (numberCode != "" && phoneNumber.length == 9) {
+                        phoneNumber = phoneNumberTextController.text;
+                        numberCode = countryTextController.text;
+                        fullPhoneNumber = numberCode + phoneNumber;
+                        print("$fullPhoneNumber is your number.");
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Verification()),
+                        );
+                      } else if (numberCode == "") {
+                        numberCode = "+1";
+                        phoneNumber = phoneNumberTextController.text;
+                      } else if (phoneNumber.length > 9 ||
+                          phoneNumber.length < 9) {
+                        print("Phone number is not complete.");
+                      }
+                    }),
+                    decoration: InputDecoration(
+                      prefix: GestureDetector(
+                        onTap: () async {
+                          final code = await countryPicker.showPicker(
+                            context: context,
+                            scrollToDeviceLocale: true,
+                          );
+                          if (code != null) {
+                            setState(() => countryCode = code);
+                            countryTextController.text = code.dialCode;
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 4.0),
+                          margin: const EdgeInsets.only(right: 8),
+                          decoration: const BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0))),
+                          child: Text(countryCode?.dialCode ?? '+1',
+                              style: const TextStyle(color: Colors.white)),
+                        ),
+                      ),
+                      labelText: 'Phone Number',
+                      fillColor: Colors.white,
+                      filled: true,
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsetsDirectional.only(end: 10),
-                child: SizedBox(
-                  width: 80,
-                  child: TextFormField(
-                    decoration: const InputDecoration(labelText: 'Code'),
-                    keyboardType: TextInputType.number,
-                  ),
-                ),
-              ),
-              Container(
-                padding: const EdgeInsetsDirectional.only(start: 20),
-                child: SizedBox(
-                  width: 190,
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'Number',
-                    ),
-                    keyboardType: TextInputType.number,
-                  ),
-                ),
-              )
-            ],
-          ),
           Container(
-            padding: const EdgeInsets.only(top: 20),
+            padding: const EdgeInsets.only(top: 10),
             alignment: Alignment.centerLeft,
             child: const Text(
               "An SMS with a verification code will be sent to your phone.",
