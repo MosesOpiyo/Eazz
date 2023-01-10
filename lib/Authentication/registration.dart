@@ -77,7 +77,6 @@ class _RegistrationState extends State<Registration> {
                         phoneNumber = phoneNumberTextController.text;
                         numberCode = countryTextController.text;
                         fullPhoneNumber = numberCode + phoneNumber;
-                        print("$fullPhoneNumber is your number.");
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -87,9 +86,7 @@ class _RegistrationState extends State<Registration> {
                         numberCode = "+1";
                         phoneNumber = phoneNumberTextController.text;
                       } else if (phoneNumber.length > 9 ||
-                          phoneNumber.length < 9) {
-                        print("Phone number is not complete.");
-                      }
+                          phoneNumber.length < 9) {}
                     }),
                     decoration: InputDecoration(
                       prefix: GestureDetector(
