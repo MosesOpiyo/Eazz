@@ -1,5 +1,5 @@
-import 'package:eazz/HomePage/homepage.dart';
 import 'package:flutter/material.dart';
+import 'package:eazz/HomePage/homepage.dart';
 
 class Verification extends StatefulWidget {
   const Verification({super.key});
