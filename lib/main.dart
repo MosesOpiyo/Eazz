@@ -1,5 +1,4 @@
-import 'package:eazz/Authentication/Registration.dart';
-import 'package:eazz/IntroPage/intropage.dart';
+import 'package:eazz/Authentication/registration.dart';
 import 'package:flutter/material.dart';
 
 void main() {

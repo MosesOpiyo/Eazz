@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:eazz/HomePage/homepage.dart';
 
 class Verification extends StatefulWidget {
-  const Verification({super.key});
+  const Verification({super.key, required this.phoneNumber});
+
+  final String phoneNumber;
 
   @override
   State<Verification> createState() => _VerificationState();
@@ -53,13 +55,6 @@ class _VerificationState extends State<Verification> {
           ),
           Container(
             alignment: Alignment.centerLeft,
-            child: const Text(
-              "We have sent a verfication code to {number}",
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-            ),
-          ),
-          Container(
-            alignment: Alignment.centerLeft,
             padding: const EdgeInsets.symmetric(vertical: 15),
             child: Column(
               children: <Widget>[
@@ -71,6 +66,16 @@ class _VerificationState extends State<Verification> {
                   ),
                 ),
               ],
+            ),
+          ),
+          Container(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "We have sent a verfication code to ${widget.phoneNumber}. Enter the code sent to verify.",
+              style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Color.fromARGB(255, 104, 104, 104)),
             ),
           ),
         ],

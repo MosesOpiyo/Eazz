@@ -1,6 +1,7 @@
 import 'package:eazz/Authentication/verification.dart';
 import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 class Registration extends StatefulWidget {
   const Registration({super.key});
@@ -10,6 +11,8 @@ class Registration extends StatefulWidget {
 }
 
 GlobalKey<FormState> formKey = GlobalKey<FormState>();
+final phoneNumberTextController = TextEditingController();
+final countryTextController = TextEditingController();
 
 class _RegistrationState extends State<Registration> {
   String phoneNumber = '';
@@ -17,8 +20,6 @@ class _RegistrationState extends State<Registration> {
   String fullPhoneNumber = '';
   final countryPicker = const FlCountryCodePicker();
   CountryCode? countryCode;
-  final phoneNumberTextController = TextEditingController();
-  final countryTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +35,25 @@ class _RegistrationState extends State<Registration> {
             child: Image.asset('assets/Appbar_logo.png', fit: BoxFit.cover),
           )),
       body: registrationUI(context),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          if (numberCode != "" && phoneNumber.length == 9) {
+            phoneNumber = phoneNumberTextController.text;
+            numberCode = countryTextController.text;
+            fullPhoneNumber = numberCode + phoneNumber;
+            print("Working");
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.leftToRight,
+                    child: Verification(phoneNumber: fullPhoneNumber)));
+          } else if (numberCode == "") {
+            numberCode = "+1";
+            phoneNumber = phoneNumberTextController.text;
+          } else if (phoneNumber.length > 9 || phoneNumber.length < 9) {}
+        },
+        child: const Icon(Icons.arrow_forward),
+      ),
     );
   }
 
@@ -71,6 +91,7 @@ class _RegistrationState extends State<Registration> {
                     textInputAction: TextInputAction.done,
                     keyboardType: TextInputType.number,
                     controller: phoneNumberTextController,
+                    autofocus: true,
                     maxLines: 1,
                     onFieldSubmitted: ((value) {
                       if (numberCode != "" && phoneNumber.length == 9) {
@@ -78,10 +99,11 @@ class _RegistrationState extends State<Registration> {
                         numberCode = countryTextController.text;
                         fullPhoneNumber = numberCode + phoneNumber;
                         Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Verification()),
-                        );
+                            context,
+                            PageTransition(
+                                type: PageTransitionType.leftToRight,
+                                child: Verification(
+                                    phoneNumber: fullPhoneNumber)));
                       } else if (numberCode == "") {
                         numberCode = "+1";
                         phoneNumber = phoneNumberTextController.text;
