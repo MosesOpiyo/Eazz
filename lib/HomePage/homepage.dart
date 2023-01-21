@@ -1,4 +1,6 @@
+import 'package:eazz/Payment/payment.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -164,7 +166,14 @@ class _HomePageState extends State<HomePage> {
                                                   BorderRadius.circular(10),
                                               side: const BorderSide(
                                                   color: Colors.white)))),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        PageTransition(
+                                            type:
+                                                PageTransitionType.rightToLeft,
+                                            child: const Payment()));
+                                  },
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
@@ -262,7 +271,7 @@ class _HomePageState extends State<HomePage> {
                   Row(
                     children: const [
                       Padding(
-                        padding: EdgeInsets.only(top: 15, left: 20),
+                        padding: EdgeInsets.only(top: 5, left: 20),
                         child: Text(
                           "Records",
                           style: TextStyle(

@@ -41,7 +41,6 @@ class _RegistrationState extends State<Registration> {
             phoneNumber = phoneNumberTextController.text;
             numberCode = countryTextController.text;
             fullPhoneNumber = numberCode + phoneNumber;
-            print("Working");
             Navigator.push(
                 context,
                 PageTransition(
