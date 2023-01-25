@@ -1,4 +1,7 @@
+import 'package:eazz/MyCode/mycode.dart';
 import 'package:eazz/Payment/payment.dart';
+import 'package:eazz/Transfer/transfer.dart';
+import 'package:eazz/WithDraw/withdraw.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -43,7 +46,7 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.person_outline_outlined),
+            icon: const Icon(Icons.notifications),
             iconSize: 28,
             color: Colors.white,
           )
@@ -210,7 +213,14 @@ class _HomePageState extends State<HomePage> {
                                                   BorderRadius.circular(10),
                                               side: const BorderSide(
                                                   color: Colors.white)))),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        PageTransition(
+                                            type:
+                                                PageTransitionType.rightToLeft,
+                                            child: const WithDraw()));
+                                  },
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
@@ -247,19 +257,30 @@ class _HomePageState extends State<HomePage> {
                                                   BorderRadius.circular(10),
                                               side: const BorderSide(
                                                   color: Colors.white)))),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        PageTransition(
+                                            type:
+                                                PageTransitionType.rightToLeft,
+                                            child: const Transfer()));
+                                  },
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: const [
                                       Icon(
-                                        Icons.compare_arrows_rounded,
+                                        Icons.send,
                                         color: Color.fromRGBO(255, 76, 0, 2),
                                         size: 20,
                                       ),
                                       Text(
-                                        'Transfer',
+                                        'Send',
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                      Text(
+                                        'Money',
                                         style: TextStyle(color: Colors.black),
                                       ),
                                     ],
@@ -376,6 +397,92 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                           Text(
                                             'Records',
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  )),
+                            ),
+                          ],
+                        )),
+                  ),
+                  Row(
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.only(top: 5, left: 20),
+                        child: Text(
+                          "Other Options",
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Color.fromARGB(255, 99, 99, 99),
+                              fontWeight: FontWeight.w600),
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    width: size.width,
+                    child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 65,
+                              width: 330,
+                              padding: const EdgeInsets.only(right: 10),
+                              child: ElevatedButton(
+                                  style: ButtonStyle(
+                                      foregroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.white),
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.white),
+                                      shape: MaterialStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              side: const BorderSide(
+                                                  color: Colors.white)))),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        PageTransition(
+                                            type:
+                                                PageTransitionType.rightToLeft,
+                                            child: const MyCode()));
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      const Padding(
+                                        padding: EdgeInsets.only(right: 5),
+                                        child: Icon(
+                                          Icons.qr_code,
+                                          color: Color.fromRGBO(255, 76, 0, 2),
+                                          size: 25,
+                                        ),
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: const [
+                                          Text(
+                                            'My',
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                          ),
+                                          Text(
+                                            'Code',
                                             style:
                                                 TextStyle(color: Colors.black),
                                           ),

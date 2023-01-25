@@ -50,7 +50,8 @@ class _CheckoutState extends State<Checkout> {
                   Navigator.push(
                       context,
                       PageTransition(
-                          type: PageTransitionType.bottomToTop,
+                          type: PageTransitionType.topToBottom,
+                          duration: const Duration(milliseconds: 500),
                           child: const HomePage()));
                 },
               ),

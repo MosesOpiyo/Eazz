@@ -1,4 +1,5 @@
 import 'package:eazz/Authentication/verification.dart';
+import 'package:eazz/Services/Auth/auth_service.dart';
 import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -36,22 +37,37 @@ class _RegistrationState extends State<Registration> {
           )),
       body: registrationUI(context),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color.fromRGBO(255, 76, 0, 2),
         onPressed: () {
           if (numberCode != "" && phoneNumber.length == 9) {
             phoneNumber = phoneNumberTextController.text;
             numberCode = countryTextController.text;
             fullPhoneNumber = numberCode + phoneNumber;
-            Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.leftToRight,
-                    child: Verification(phoneNumber: fullPhoneNumber)));
+            if (fullPhoneNumber != "") {
+              APIService()
+                  .registration(fullPhoneNumber)
+                  .then((response) async => {
+                        // ignore: unrelated_type_equality_checks
+                        if (response != "")
+                          {
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.leftToRight,
+                                    child: Verification(
+                                        phoneNumber: fullPhoneNumber))),
+                          }
+                      });
+            }
           } else if (numberCode == "") {
             numberCode = "+1";
             phoneNumber = phoneNumberTextController.text;
           } else if (phoneNumber.length > 9 || phoneNumber.length < 9) {}
         },
-        child: const Icon(Icons.arrow_forward),
+        child: const Icon(
+          Icons.arrow_forward,
+          color: Colors.white,
+        ),
       ),
     );
   }
@@ -85,7 +101,7 @@ class _RegistrationState extends State<Registration> {
               // ignore: prefer_const_literals_to_create_immutables
               children: <Widget>[
                 SizedBox(
-                  width: 300,
+                  width: 330,
                   child: TextFormField(
                     textInputAction: TextInputAction.done,
                     keyboardType: TextInputType.number,

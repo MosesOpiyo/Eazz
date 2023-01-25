@@ -1,15 +1,13 @@
-import 'package:eazz/Payment/checkout.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 
-class Payment extends StatefulWidget {
-  const Payment({super.key});
+class MyCode extends StatefulWidget {
+  const MyCode({super.key});
 
   @override
-  State<Payment> createState() => _PaymentState();
+  State<MyCode> createState() => _MyCodeState();
 }
 
-class _PaymentState extends State<Payment> {
+class _MyCodeState extends State<MyCode> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,12 +17,11 @@ class _PaymentState extends State<Payment> {
         shadowColor: Colors.transparent,
         title: Container(
           padding: const EdgeInsets.all(10),
-          width: 70,
+          width: 95,
           height: 40,
           child: const Text(
-            "Scan",
-            style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+            "My Code",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
         elevation: 0,
@@ -42,14 +39,8 @@ class _PaymentState extends State<Payment> {
                       borderRadius: BorderRadius.circular(20),
                       side: const BorderSide(
                           color: Color.fromRGBO(255, 76, 0, 2))))),
-          onPressed: () {
-            Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.rightToLeft,
-                    child: const Checkout()));
-          },
-          child: const Text('Scan'),
+          onPressed: () {},
+          child: const Text('Send'),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -73,23 +64,42 @@ class _PaymentState extends State<Payment> {
                       children: [
                         Container(
                           padding: const EdgeInsets.only(bottom: 5),
-                          child: const Text("Scan QR Code",
+                          child: const Text("This is your personal code.",
                               style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white)),
                         ),
-                        const Text(
-                            "Scan the QR code to complete purchase of your products.",
+                        const Text("Use it when:",
                             style: TextStyle(
                                 fontSize: 10,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white))
+                                color: Colors.white)),
+                        const Text("1. Receiving Money",
+                            style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white)),
+                        const Text("2. Depositing Money to your Account.",
+                            style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white)),
                       ],
                     ),
                   ),
                 )),
-          )
+          ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 60),
+              child: Container(
+                width: 330,
+                height: 330,
+                color: Colors.black,
+              ),
+            ),
+          ),
         ],
       )),
     );

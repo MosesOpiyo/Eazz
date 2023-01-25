@@ -32,8 +32,11 @@ class _VerificationState extends State<Verification> {
             MaterialPageRoute(builder: (context) => const HomePage()),
           );
         },
-        backgroundColor: Colors.orange,
-        child: const Icon(Icons.question_mark),
+        backgroundColor: const Color.fromRGBO(255, 76, 0, 2),
+        child: const Icon(
+          Icons.login,
+          color: Colors.white,
+        ),
       ),
     );
   }
@@ -71,11 +74,21 @@ class _VerificationState extends State<Verification> {
           Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              "We have sent a verfication code to ${widget.phoneNumber}. Enter the code sent to verify.",
+              "A verfication code has been sent to ${widget.phoneNumber}.",
               style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
-                  color: Color.fromARGB(255, 104, 104, 104)),
+                  color: Colors.black),
+            ),
+          ),
+          Container(
+            alignment: Alignment.centerLeft,
+            child: const Text(
+              "Enter the code sent to verify.",
+              style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black),
             ),
           ),
         ],
