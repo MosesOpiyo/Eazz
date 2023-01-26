@@ -13,7 +13,7 @@ class RegistrationResponseModel {
     phoneNumber = json['phone_number'];
   }
 
-  Map<String, dynamic> toJson() {
+  Map<dynamic, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['phone_number'] = phoneNumber;
     return data;

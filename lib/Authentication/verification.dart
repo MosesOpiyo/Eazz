@@ -1,5 +1,7 @@
+import 'package:eazz/Services/Auth/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:eazz/HomePage/homepage.dart';
+import 'package:flutter_session/flutter_session.dart';
 
 class Verification extends StatefulWidget {
   const Verification({super.key, required this.phoneNumber});
@@ -10,7 +12,21 @@ class Verification extends StatefulWidget {
   State<Verification> createState() => _VerificationState();
 }
 
+GlobalKey<FormState> formKey = GlobalKey<FormState>();
+final codeTextController = TextEditingController();
+final snackBar = SnackBar(
+  content: const Text('Incorrect Verification Code'),
+  action: SnackBarAction(
+    label: 'Retry',
+    onPressed: () {},
+  ),
+);
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+
 class _VerificationState extends State<Verification> {
+  String verificationCode = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,10 +43,30 @@ class _VerificationState extends State<Verification> {
       body: registrationUI(context),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const HomePage()),
-          );
+          verificationCode = codeTextController.text;
+
+          if (verificationCode.length == 5 && verificationCode != '') {
+            APIService()
+                .verification(verificationCode, widget.phoneNumber)
+                .then((response) async => {
+                      if (response.token != "")
+                        {
+                          await FlutterSession().set('token', response.token),
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HomePage()),
+                          )
+                        }
+                    })
+                .onError((error, stackTrace) => {
+                      if (error != "")
+                        {
+                          snackBar,
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar)
+                        }
+                    });
+          }
         },
         backgroundColor: const Color.fromRGBO(255, 76, 0, 2),
         child: const Icon(
@@ -66,6 +102,7 @@ class _VerificationState extends State<Verification> {
                   child: TextFormField(
                     decoration: const InputDecoration(labelText: 'Code'),
                     keyboardType: TextInputType.number,
+                    controller: codeTextController,
                   ),
                 ),
               ],
