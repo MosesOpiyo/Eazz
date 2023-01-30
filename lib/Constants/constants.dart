@@ -3,4 +3,5 @@ class ApiConstants {
   static String userRegistration = '/authentication/registration';
   static String userVerification = '/authentication/verification';
   static String userProfile = '/authentication/user_profile';
+  static String userName = '/authentication/username';
 }

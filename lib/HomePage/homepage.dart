@@ -1,5 +1,6 @@
 import 'package:eazz/MyCode/mycode.dart';
 import 'package:eazz/Payment/payment.dart';
+import 'package:eazz/Services/User/user_service.dart';
 import 'package:eazz/Transfer/transfer.dart';
 import 'package:eazz/WithDraw/withdraw.dart';
 import 'package:flutter/material.dart';
@@ -93,13 +94,22 @@ class _HomePageState extends State<HomePage> {
                           height: 100,
                         ),
                         Row(
-                          children: const [
-                            Text(
-                              "Hello User,",
-                              style: TextStyle(
-                                  fontSize: 24,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500),
+                          children: [
+                            FutureBuilder(
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Text(
+                                    "Hello ${snapshot.data!.username},",
+                                    style: const TextStyle(
+                                        fontSize: 24,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500),
+                                  );
+                                } else {
+                                  return const Text('');
+                                }
+                              },
+                              future: Userservice().getProfile(),
                             ),
                           ],
                         ),

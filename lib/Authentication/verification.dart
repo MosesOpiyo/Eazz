@@ -1,5 +1,8 @@
 import 'package:eazz/Services/Auth/auth_service.dart';
+import 'package:eazz/Services/User/user_service.dart';
+import 'package:eazz/Username/username.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:eazz/HomePage/homepage.dart';
 import 'package:flutter_session/flutter_session.dart';
 
@@ -21,12 +24,12 @@ final snackBar = SnackBar(
     onPressed: () {},
   ),
 );
-
 // Find the ScaffoldMessenger in the widget tree
 // and use it to show a SnackBar.
 
 class _VerificationState extends State<Verification> {
   String verificationCode = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,11 +55,14 @@ class _VerificationState extends State<Verification> {
                       if (response.token != "")
                         {
                           await FlutterSession().set('token', response.token),
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HomePage()),
-                          )
+                          Userservice().getProfile().then((user) => {
+                                // ignore: prefer_is_empty, unnecessary_null_comparison
+                                if (user.username == null)
+                                  {Navigator.pushNamed(context, '/Username')}
+                                // ignore: prefer_is_empty, unnecessary_null_comparison
+                                else if (user.username != null)
+                                  {Navigator.pushNamed(context, '/Home')}
+                              })
                         }
                     })
                 .onError((error, stackTrace) => {

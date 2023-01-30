@@ -1,5 +1,7 @@
 import 'package:eazz/Authentication/verification.dart';
+import 'package:eazz/HomePage/homepage.dart';
 import 'package:eazz/Services/Auth/auth_service.dart';
+import 'package:eazz/Username/username.dart';
 import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';

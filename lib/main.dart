@@ -1,4 +1,6 @@
 import 'package:eazz/Authentication/registration.dart';
+import 'package:eazz/HomePage/homepage.dart';
+import 'package:eazz/Username/username.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -26,6 +28,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.orange,
       ),
       home: const Registration(),
+      routes: {
+        '/Home': (context) => const HomePage(),
+        '/Username': (context) => const Username(),
+      },
     );
   }
 }
