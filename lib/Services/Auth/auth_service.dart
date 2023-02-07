@@ -1,11 +1,14 @@
+// ignore_for_file: import_of_legacy_library_into_null_safe
+
 import 'package:eazz/Models/phone_number_models.dart';
 import 'package:eazz/Models/code_models.dart';
 import 'package:eazz/Models/user_models.dart';
 import 'package:http/http.dart' as http;
 import 'package:eazz/Constants/constants.dart';
-import 'package:flutter_session/flutter_session.dart';
 import 'dart:convert';
 import 'dart:io';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class APIService {
   var client = http.Client();
@@ -41,7 +44,8 @@ class APIService {
   }
 
   Future<UsernameResponseModel> username(String username) async {
-    var token = await FlutterSession().get("token");
+    final prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
       HttpHeaders.authorizationHeader: "Token $token"
