@@ -1,5 +1,6 @@
 import 'package:eazz/MyCode/mycode.dart';
 import 'package:eazz/Payment/payment.dart';
+import 'package:eazz/Receipts/receipts.dart';
 import 'package:eazz/Services/User/user_service.dart';
 import 'package:eazz/Transfer/transfer.dart';
 import 'package:eazz/WithDraw/withdraw.dart';
@@ -340,7 +341,14 @@ class _HomePageState extends State<HomePage> {
                                                   BorderRadius.circular(10),
                                               side: const BorderSide(
                                                   color: Colors.white)))),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        PageTransition(
+                                            type:
+                                                PageTransitionType.rightToLeft,
+                                            child: const Receipts()));
+                                  },
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
