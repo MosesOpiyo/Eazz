@@ -1,9 +1,11 @@
+// ignore_for_file: use_build_context_synchronously, unnecessary_null_comparison, import_of_legacy_library_into_null_safe, file_names
 import 'package:eazz/Authentication/verification.dart';
 import 'package:eazz/HomePage/homepage.dart';
 import 'package:eazz/Services/Auth/auth_service.dart';
-import 'package:eazz/Username/username.dart';
 import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:page_transition/page_transition.dart';
 
 class Registration extends StatefulWidget {
@@ -22,7 +24,24 @@ class _RegistrationState extends State<Registration> {
   String numberCode = '';
   String fullPhoneNumber = '';
   final countryPicker = const FlCountryCodePicker();
+  final prefs = SharedPreferences.getInstance();
   CountryCode? countryCode;
+  @override
+  void initState() {
+    getStringValuesSF();
+    super.initState();
+  }
+
+  getStringValuesSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var stringValue = prefs.getString('token');
+    if (stringValue != null) {
+      return Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
+    } else {}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,30 +59,34 @@ class _RegistrationState extends State<Registration> {
       body: registrationUI(context),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromRGBO(255, 76, 0, 2),
-        onPressed: () {
+        onPressed: () async {
           if (numberCode != "" && phoneNumber.length == 9) {
             phoneNumber = phoneNumberTextController.text;
             numberCode = countryTextController.text;
             fullPhoneNumber = numberCode + phoneNumber;
-            if (fullPhoneNumber != "") {
-              APIService()
-                  .registration(fullPhoneNumber)
-                  .then((response) async => {
-                        // ignore: unrelated_type_equality_checks
-                        if (response != "")
-                          {
-                            Navigator.push(
-                                context,
-                                PageTransition(
-                                    type: PageTransitionType.leftToRight,
-                                    child: Verification(
-                                        phoneNumber: fullPhoneNumber))),
-                          }
-                      });
+            bool result = await InternetConnectionChecker().hasConnection;
+            if (result == true) {
+              if (fullPhoneNumber != "") {
+                APIService().registration(fullPhoneNumber);
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.leftToRight,
+                        child: Verification(phoneNumber: fullPhoneNumber)));
+              } else if (numberCode == "") {
+                numberCode = "+1";
+                phoneNumber = phoneNumberTextController.text;
+              }
+            } else if (result != true) {
+              final snackBar = SnackBar(
+                content: const Text('No Internet Connection.'),
+                action: SnackBarAction(
+                  label: 'OK',
+                  onPressed: () {},
+                ),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
             }
-          } else if (numberCode == "") {
-            numberCode = "+1";
-            phoneNumber = phoneNumberTextController.text;
           } else if (phoneNumber.length > 9 || phoneNumber.length < 9) {}
         },
         child: const Icon(
@@ -151,7 +174,7 @@ class _RegistrationState extends State<Registration> {
                               style: const TextStyle(color: Colors.white)),
                         ),
                       ),
-                      labelText: 'Phone Number',
+                      labelText: 'Country Code and Number',
                       fillColor: Colors.white,
                       filled: true,
                     ),

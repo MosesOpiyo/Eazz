@@ -1,10 +1,9 @@
+// ignore_for_file: unnecessary_null_comparison, use_build_context_synchronously, import_of_legacy_library_into_null_safe
 import 'package:eazz/Services/Auth/auth_service.dart';
 import 'package:eazz/Services/User/user_service.dart';
-import 'package:eazz/Username/username.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:eazz/HomePage/homepage.dart';
-import 'package:flutter_session/flutter_session.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Verification extends StatefulWidget {
   const Verification({super.key, required this.phoneNumber});
@@ -16,6 +15,7 @@ class Verification extends StatefulWidget {
 }
 
 GlobalKey<FormState> formKey = GlobalKey<FormState>();
+Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 final codeTextController = TextEditingController();
 final snackBar = SnackBar(
   content: const Text('Incorrect Verification Code'),
@@ -29,6 +29,10 @@ final snackBar = SnackBar(
 
 class _VerificationState extends State<Verification> {
   String verificationCode = '';
+  setToken(token) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('token', token);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,33 +49,40 @@ class _VerificationState extends State<Verification> {
           )),
       body: registrationUI(context),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
           verificationCode = codeTextController.text;
 
           if (verificationCode.length == 5 && verificationCode != '') {
-            APIService()
-                .verification(verificationCode, widget.phoneNumber)
-                .then((response) async => {
-                      if (response.token != "")
-                        {
-                          await FlutterSession().set('token', response.token),
-                          Userservice().getProfile().then((user) => {
-                                // ignore: prefer_is_empty, unnecessary_null_comparison
-                                if (user.username == null)
-                                  {Navigator.pushNamed(context, '/Username')}
-                                // ignore: prefer_is_empty, unnecessary_null_comparison
-                                else if (user.username != null)
-                                  {Navigator.pushNamed(context, '/Home')}
-                              })
-                        }
-                    })
-                .onError((error, stackTrace) => {
-                      if (error != "")
-                        {
-                          snackBar,
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar)
-                        }
-                    });
+            bool result = await InternetConnectionChecker().hasConnection;
+            if (result == true) {
+              APIService()
+                  .verification(verificationCode, widget.phoneNumber)
+                  .then((response) async => {
+                        setToken(response.token),
+                        Userservice().getProfile().then((user) => {
+                              if (user.username == null)
+                                {Navigator.pushNamed(context, '/Username')}
+                              else if (user.username != null)
+                                {Navigator.pushNamed(context, '/Home')}
+                            })
+                      })
+                  .onError((error, stackTrace) => {
+                        if (error != "")
+                          {
+                            snackBar,
+                            ScaffoldMessenger.of(context).showSnackBar(snackBar)
+                          }
+                      });
+            } else if (result != true) {
+              final snackBar = SnackBar(
+                content: const Text('No Internet Connection.'),
+                action: SnackBarAction(
+                  label: 'OK',
+                  onPressed: () {},
+                ),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            }
           }
         },
         backgroundColor: const Color.fromRGBO(255, 76, 0, 2),
