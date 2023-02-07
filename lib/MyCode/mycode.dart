@@ -26,24 +26,6 @@ class _MyCodeState extends State<MyCode> {
         ),
         elevation: 0,
       ),
-      floatingActionButton: SizedBox(
-        width: 100,
-        height: 50,
-        child: ElevatedButton(
-          style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-              backgroundColor: MaterialStateProperty.all<Color>(
-                  const Color.fromRGBO(255, 76, 0, 2)),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      side: const BorderSide(
-                          color: Color.fromRGBO(255, 76, 0, 2))))),
-          onPressed: () {},
-          child: const Text('Send'),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: SafeArea(
           child: Column(
         children: [
