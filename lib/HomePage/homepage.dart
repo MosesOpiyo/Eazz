@@ -1,3 +1,4 @@
+import 'package:eazz/Menu/menu.dart';
 import 'package:eazz/MyCode/mycode.dart';
 import 'package:eazz/Payment/payment.dart';
 import 'package:eazz/Receipts/receipts.dart';
@@ -41,58 +42,44 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.sort),
-          color: Colors.white,
-        ),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.leftToRight,
+                      child: const Menu()));
+            },
+            icon: Container(
+              padding: const EdgeInsets.only(left: 15),
+              width: 30,
+              height: 30,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+            )),
         actions: [
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.notifications),
+            icon: const Icon(Icons.notifications_outlined),
             iconSize: 28,
             color: Colors.white,
           )
         ],
       ),
-      bottomNavigationBar: Container(
-          color: Colors.grey.shade100,
-          padding: const EdgeInsets.all(10),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: BottomNavigationBar(
-              backgroundColor: const Color.fromRGBO(255, 76, 0, 2),
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: 'Home',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.settings_outlined),
-                  label: 'Settings',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.person_outline_rounded),
-                  label: 'Account',
-                ),
-              ],
-              currentIndex: 0,
-              selectedItemColor: Colors.white,
-              onTap: ((value) {}),
-            ),
-          )),
       body: SafeArea(
           child: Column(
         children: [
           Column(
             children: [
               SizedBox(
-                height: size.height * .3,
+                height: size.height * .27,
                 child: Padding(
                     padding: const EdgeInsets.only(left: 15, bottom: 0),
                     child: Column(
                       children: [
                         const SizedBox(
-                          height: 100,
+                          height: 30,
                         ),
                         Row(
                           children: [
@@ -102,9 +89,10 @@ class _HomePageState extends State<HomePage> {
                                   return Text(
                                     "Hello ${snapshot.data!.username},",
                                     style: const TextStyle(
-                                        fontSize: 24,
+                                        fontSize: 20,
                                         color: Colors.white,
-                                        fontWeight: FontWeight.w500),
+                                        fontFamily: 'Oswald',
+                                        fontWeight: FontWeight.normal),
                                   );
                                 } else {
                                   return const Text('');
@@ -112,6 +100,18 @@ class _HomePageState extends State<HomePage> {
                               },
                               future: Userservice().getProfile(),
                             ),
+                          ],
+                        ),
+                        Row(
+                          children: const [
+                            Text(
+                              "Balance: Ksh 100.00",
+                              style: TextStyle(
+                                  fontSize: 28,
+                                  color: Colors.white,
+                                  fontFamily: 'Oswald',
+                                  fontWeight: FontWeight.normal),
+                            )
                           ],
                         ),
                         Row(
@@ -139,20 +139,6 @@ class _HomePageState extends State<HomePage> {
               color: Colors.grey.shade100,
               child: Column(
                 children: [
-                  Row(
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.only(top: 15, left: 20),
-                        child: Text(
-                          "Operations",
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Color.fromARGB(255, 99, 99, 99),
-                              fontWeight: FontWeight.w600),
-                        ),
-                      )
-                    ],
-                  ),
                   SizedBox(
                     width: size.width,
                     child: Padding(
@@ -162,9 +148,9 @@ class _HomePageState extends State<HomePage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
-                              height: 100,
+                              height: 60,
                               width: 105,
-                              padding: const EdgeInsets.only(right: 10),
+                              padding: const EdgeInsets.only(right: 5),
                               child: ElevatedButton(
                                   style: ButtonStyle(
                                       foregroundColor:
@@ -200,15 +186,18 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                       Text(
                                         'Pay',
-                                        style: TextStyle(color: Colors.black),
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: 'Oswald',
+                                        ),
                                       ),
                                     ],
                                   )),
                             ),
                             Container(
-                              height: 100,
+                              height: 60,
                               width: 105,
-                              padding: const EdgeInsets.only(right: 10),
+                              padding: const EdgeInsets.only(right: 5),
                               child: ElevatedButton(
                                   style: ButtonStyle(
                                       foregroundColor:
@@ -244,15 +233,17 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                       Text(
                                         'Withdraw',
-                                        style: TextStyle(color: Colors.black),
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontFamily: 'Oswald'),
                                       ),
                                     ],
                                   )),
                             ),
                             Container(
-                              height: 100,
+                              height: 60,
                               width: 105,
-                              padding: const EdgeInsets.only(right: 10),
+                              padding: const EdgeInsets.only(right: 5),
                               child: ElevatedButton(
                                   style: ButtonStyle(
                                       foregroundColor:
@@ -282,163 +273,22 @@ class _HomePageState extends State<HomePage> {
                                         CrossAxisAlignment.center,
                                     children: const [
                                       Icon(
-                                        Icons.send,
+                                        Icons.send_outlined,
                                         color: Color.fromRGBO(255, 76, 0, 2),
                                         size: 20,
                                       ),
                                       Text(
                                         'Send',
-                                        style: TextStyle(color: Colors.black),
-                                      ),
-                                      Text(
-                                        'Money',
-                                        style: TextStyle(color: Colors.black),
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: 'Oswald',
+                                        ),
                                       ),
                                     ],
                                   )),
                             ),
                           ],
                         )),
-                  ),
-                  Row(
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.only(top: 5, left: 20),
-                        child: Text(
-                          "Records",
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Color.fromARGB(255, 99, 99, 99),
-                              fontWeight: FontWeight.w600),
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    width: size.width,
-                    child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: 100,
-                              width: 160,
-                              padding: const EdgeInsets.only(right: 10),
-                              child: ElevatedButton(
-                                  style: ButtonStyle(
-                                      foregroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              Colors.white),
-                                      backgroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              Colors.white),
-                                      shape: MaterialStateProperty.all<
-                                              RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              side: const BorderSide(
-                                                  color: Colors.white)))),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        PageTransition(
-                                            type:
-                                                PageTransitionType.rightToLeft,
-                                            child: const Receipts()));
-                                  },
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: const [
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 5),
-                                        child: Icon(
-                                          Icons.receipt_long_rounded,
-                                          color: Color.fromRGBO(255, 76, 0, 2),
-                                          size: 25,
-                                        ),
-                                      ),
-                                      Text(
-                                        'Receipts',
-                                        style: TextStyle(color: Colors.black),
-                                      ),
-                                    ],
-                                  )),
-                            ),
-                            Container(
-                              height: 100,
-                              width: 160,
-                              padding: const EdgeInsets.only(right: 10),
-                              child: ElevatedButton(
-                                  style: ButtonStyle(
-                                      foregroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              Colors.white),
-                                      backgroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              Colors.white),
-                                      shape: MaterialStateProperty.all<
-                                              RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              side: const BorderSide(
-                                                  color: Colors.white)))),
-                                  onPressed: () {},
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      const Padding(
-                                        padding: EdgeInsets.only(right: 5),
-                                        child: Icon(
-                                          Icons.wallet,
-                                          color: Color.fromRGBO(255, 76, 0, 2),
-                                          size: 25,
-                                        ),
-                                      ),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: const [
-                                          Text(
-                                            'Transaction',
-                                            style:
-                                                TextStyle(color: Colors.black),
-                                          ),
-                                          Text(
-                                            'Records',
-                                            style:
-                                                TextStyle(color: Colors.black),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  )),
-                            ),
-                          ],
-                        )),
-                  ),
-                  Row(
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.only(top: 5, left: 20),
-                        child: Text(
-                          "Other Options",
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Color.fromARGB(255, 99, 99, 99),
-                              fontWeight: FontWeight.w600),
-                        ),
-                      )
-                    ],
                   ),
                   SizedBox(
                     width: size.width,
@@ -496,13 +346,17 @@ class _HomePageState extends State<HomePage> {
                                         children: const [
                                           Text(
                                             'My',
-                                            style:
-                                                TextStyle(color: Colors.black),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontFamily: 'Oswald',
+                                            ),
                                           ),
                                           Text(
                                             'Code',
-                                            style:
-                                                TextStyle(color: Colors.black),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontFamily: 'Oswald',
+                                            ),
                                           ),
                                         ],
                                       )
@@ -511,6 +365,119 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ],
                         )),
+                  ),
+                  Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(top: 5, left: 20, bottom: 12),
+                        child: Text(
+                          "Statements",
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Color.fromARGB(255, 99, 99, 99),
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      const Spacer(),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.rightToLeft,
+                                    child: const Receipts()));
+                          },
+                          child: const Text(
+                            "SEE ALL",
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: 'Oswald',
+                                color: Color.fromRGBO(255, 76, 0, 2),
+                                fontWeight: FontWeight.w600),
+                          ))
+                    ],
+                  ),
+                  SizedBox(
+                    width: size.width,
+                    child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(20),
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 12),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: const [
+                                  Text(
+                                    "Statements",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontFamily: 'Oswald',
+                                        color: Color.fromARGB(255, 99, 99, 99),
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  Text(
+                                    "12345",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: 'Oswald',
+                                        color: Color.fromARGB(255, 99, 99, 99),
+                                        fontWeight: FontWeight.w200),
+                                  )
+                                ],
+                              ),
+                            ),
+                            const Spacer(),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                const Text(
+                                  "-Ksh 200.00",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontFamily: 'Oswald',
+                                      color: Color.fromARGB(255, 99, 99, 99),
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                Text(
+                                  "${time.day}th ${months[currentMon - 1]} ${time.year}.",
+                                  style: const TextStyle(
+                                      fontSize: 12,
+                                      fontFamily: 'Oswald',
+                                      color: Color.fromARGB(255, 99, 99, 99),
+                                      fontWeight: FontWeight.w200),
+                                )
+                              ],
+                            )
+                          ],
+                        )),
+                  ),
+                  Row(
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.only(top: 5, left: 20),
+                        child: Text(
+                          "Other Options",
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Color.fromARGB(255, 99, 99, 99),
+                              fontWeight: FontWeight.w600),
+                        ),
+                      )
+                    ],
                   ),
                 ],
               ),

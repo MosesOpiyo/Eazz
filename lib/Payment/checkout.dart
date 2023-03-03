@@ -1,10 +1,11 @@
 import 'package:eazz/HomePage/homepage.dart';
+import 'package:eazz/Models/Receipts/single_receipt_model.dart';
+import 'package:eazz/Services/Receipt/receipt_service.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
 class Checkout extends StatefulWidget {
   const Checkout({super.key});
-
   @override
   State<Checkout> createState() => _CheckoutState();
 }

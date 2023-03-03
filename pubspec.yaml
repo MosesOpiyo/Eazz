@@ -42,7 +42,10 @@ dependencies:
   flutter_dotenv: ^5.0.2
   dropdown_formfield: ^0.1.4
   http: ^0.13.5
-  flutter_session: ^0.1.1
+  internet_connection_checker: ^1.0.0+1
+  shared_preferences: ^2.0.17
+  qr_code_scanner: ^1.0.1
+  permission_handler: ^10.2.0
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +70,10 @@ flutter:
     - family: Dangrek    
       fonts:
         - asset: assets/Dangrek-Regular.ttf
+    - family: Oswald    
+      fonts:
+        - asset: assets/Oswald-Regular.ttf
+    
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

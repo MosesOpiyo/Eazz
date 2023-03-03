@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_null_comparison, use_build_context_synchronously, import_of_legacy_library_into_null_safe
+// ignore_for_file: unnecessary_null_comparison, use_build_context_synchronously, import_of_legacy_library_into_null_safe, file_names
 import 'package:eazz/Services/Auth/auth_service.dart';
 import 'package:eazz/Services/User/user_service.dart';
 import 'package:flutter/material.dart';

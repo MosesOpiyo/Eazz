@@ -4,4 +4,6 @@ class ApiConstants {
   static String userVerification = '/authentication/verification';
   static String userProfile = '/authentication/user_profile';
   static String userName = '/authentication/username';
+  static String receipt = '/Receipts/receipts';
+  static String singleReceipt = '/yReceipts/user_receipts';
 }
