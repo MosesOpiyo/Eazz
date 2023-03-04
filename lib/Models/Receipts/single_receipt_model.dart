@@ -1,15 +1,21 @@
 // ignore_for_file: unnecessary_new, prefer_collection_literals, unnecessary_this
 
 class SingleReceiptResponseModel {
+  String? receiptNumber;
   String? server;
   int? customerId;
   String? customerName;
   List<Items>? items;
 
   SingleReceiptResponseModel(
-      {this.server, this.customerId, this.customerName, this.items});
+      {this.receiptNumber,
+      this.server,
+      this.customerId,
+      this.customerName,
+      this.items});
 
   SingleReceiptResponseModel.fromJson(Map<String, dynamic> json) {
+    receiptNumber = json['receipt_number'];
     server = json['server'];
     customerId = json['customer_id'];
     customerName = json['customer_name'];
@@ -23,6 +29,7 @@ class SingleReceiptResponseModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['receipt_number'] = this.receiptNumber;
     data['server'] = this.server;
     data['customer_id'] = this.customerId;
     data['customer_name'] = this.customerName;

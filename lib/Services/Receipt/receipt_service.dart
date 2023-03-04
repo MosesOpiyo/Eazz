@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, prefer_interpolation_to_compose_strings
+
 import 'package:eazz/Models/Receipts/receipt_models.dart';
 import 'package:eazz/Models/Receipts/single_receipt_model.dart';
 import 'package:http/http.dart' as http;
@@ -19,8 +21,7 @@ class ReceiptService {
       headers: requestHeaders,
       body: result,
     );
-    print(response.body);
-    return response.body;
+    return cnv.jsonDecode(response.body);
   }
 
   Future<List<ReceiptResponseModel>> getReceipts() async {
@@ -42,24 +43,18 @@ class ReceiptService {
     return receipt;
   }
 
-  Future<SingleReceiptResponseModel> getReceipt() async {
+  Future<SingleReceiptResponseModel> getReceipt(number) async {
     String? token;
     final prefs = await SharedPreferences.getInstance();
     token = prefs.getString('token');
     Map<String, String> requestHeaders = {'Authorization': 'Token $token'};
-    var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.singleReceipt);
+    var url = Uri.parse(
+        ApiConstants.baseUrl + ApiConstants.singleReceipt + '/$number');
 
     var response = await http.get(
       url,
       headers: requestHeaders,
     );
-    if (response.statusCode == 200) {
-      var receipt =
-          SingleReceiptResponseModel.fromJson(cnv.jsonDecode(response.body));
-      print(receipt);
-      return SingleReceiptResponseModel.fromJson(cnv.jsonDecode(response.body));
-    } else {
-      throw Exception('Failed to load album');
-    }
+    return SingleReceiptResponseModel.fromJson(cnv.jsonDecode(response.body));
   }
 }

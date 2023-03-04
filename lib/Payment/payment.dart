@@ -1,9 +1,5 @@
 // ignore_for_file: unused_local_variable, avoid_print
 
-import 'dart:convert';
-
-import 'package:eazz/Models/Receipts/receipt_models.dart';
-import 'package:eazz/Models/Receipts/single_receipt_model.dart';
 import 'package:eazz/Payment/checkout.dart';
 import 'package:eazz/Services/Receipt/receipt_service.dart';
 import 'package:flutter/material.dart';
@@ -31,14 +27,14 @@ class _PaymentState extends State<Payment> {
         setState(() {
           controller.pauseCamera();
           result = scanData;
-          ReceiptService().postReceipt(result!.code);
-
-          Navigator.push(
-              context,
-              PageTransition(
-                  type: PageTransitionType.rightToLeft,
-                  duration: const Duration(milliseconds: 500),
-                  child: const Checkout()));
+          ReceiptService().postReceipt(result!.code).then((value) => {
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        duration: const Duration(milliseconds: 900),
+                        child: Checkout(receiptNumber: value)))
+              });
         });
       }
     });
