@@ -67,12 +67,39 @@ class _RegistrationState extends State<Registration> {
             bool result = await InternetConnectionChecker().hasConnection;
             if (result == true) {
               if (fullPhoneNumber != "") {
-                APIService().registration(fullPhoneNumber);
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.leftToRight,
-                        child: Verification(phoneNumber: fullPhoneNumber)));
+                AlertDialog alert = AlertDialog(
+                  title: const Text("Confirmation"),
+                  content: Text(
+                    "Confirm your phone Number is $fullPhoneNumber.",
+                    style: const TextStyle(fontWeight: FontWeight.w500),
+                  ),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          APIService().registration(fullPhoneNumber);
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  type: PageTransitionType.leftToRight,
+                                  child: Verification(
+                                      phoneNumber: fullPhoneNumber)));
+                        },
+                        child: const Text("Confirm",
+                            style: TextStyle(color: Colors.deepOrange))),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text("Cancel",
+                            style: TextStyle(color: Colors.deepOrange))),
+                  ],
+                );
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return alert;
+                  },
+                );
               } else if (numberCode == "") {
                 numberCode = "+1";
                 phoneNumber = phoneNumberTextController.text;
@@ -121,7 +148,7 @@ class _RegistrationState extends State<Registration> {
           ),
           Container(
             alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.symmetric(vertical: 30),
+            padding: const EdgeInsets.all(10),
             child: Column(
               // ignore: prefer_const_literals_to_create_immutables
               children: <Widget>[
