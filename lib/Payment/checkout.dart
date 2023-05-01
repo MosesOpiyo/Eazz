@@ -45,7 +45,11 @@ class _CheckoutState extends State<Checkout> {
           height: 40,
           child: const Text(
             "Checkout",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 18,
+                fontFamily: 'Oswald',
+                fontWeight: FontWeight.bold),
           ),
         ),
       ),
@@ -111,12 +115,13 @@ class _CheckoutState extends State<Checkout> {
                                   Container(
                                     padding: const EdgeInsets.only(
                                         left: 15, top: 10),
-                                    child: const Text(
-                                      "Cashier: Moses Opiyo",
-                                      style: TextStyle(
+                                    child: Text(
+                                      "Cashier: ${receipt.serverName}",
+                                      style: const TextStyle(
                                           color: Colors.white,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold),
+                                          fontSize: 19,
+                                          fontFamily: 'Oswald',
+                                          fontWeight: FontWeight.w500),
                                     ),
                                   )
                                 ],
@@ -126,12 +131,13 @@ class _CheckoutState extends State<Checkout> {
                                   Container(
                                     padding: const EdgeInsets.only(
                                         left: 15, top: 10),
-                                    child: const Text(
-                                      "Amount: Ksh 5000.00",
-                                      style: TextStyle(
+                                    child: Text(
+                                      "Store: ${receipt.storeName}",
+                                      style: const TextStyle(
                                           color: Colors.white,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold),
+                                          fontSize: 19,
+                                          fontFamily: 'Oswald',
+                                          fontWeight: FontWeight.w500),
                                     ),
                                   )
                                 ],
@@ -145,8 +151,9 @@ class _CheckoutState extends State<Checkout> {
                                       "Items: ${receipt.items?.length}",
                                       style: const TextStyle(
                                           color: Colors.white,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w600),
+                                          fontSize: 16,
+                                          fontFamily: 'Oswald',
+                                          fontWeight: FontWeight.w500),
                                     ),
                                   )
                                 ],
@@ -169,15 +176,21 @@ class _CheckoutState extends State<Checkout> {
                         padding: EdgeInsets.zero,
                         child: Column(
                           children: [
-                            const Padding(
-                              padding: EdgeInsets.only(top: 10, left: 20),
-                              child: Text(
-                                "Products",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: Color.fromARGB(255, 99, 99, 99),
-                                    fontWeight: FontWeight.w600),
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: const [
+                                Padding(
+                                  padding: EdgeInsets.only(top: 10, left: 20),
+                                  child: Text(
+                                    "Products",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: Color.fromARGB(255, 99, 99, 99),
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                              ],
                             ),
                             Expanded(
                                 child: Container(
@@ -202,20 +215,23 @@ class _CheckoutState extends State<Checkout> {
                                                       style: const TextStyle(
                                                           color: Colors.black,
                                                           fontSize: 16,
+                                                          fontFamily: 'Oswald',
                                                           fontWeight:
-                                                              FontWeight.bold),
+                                                              FontWeight.w500),
                                                     ),
                                                     Row(
                                                       children: [
                                                         const Text(
-                                                          "Quantity:",
+                                                          "item Number:",
                                                           style: TextStyle(
                                                               color:
                                                                   Colors.black,
                                                               fontSize: 12,
+                                                              fontFamily:
+                                                                  'Oswald',
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .bold),
+                                                                      .w500),
                                                         ),
                                                         Padding(
                                                           padding:
@@ -225,15 +241,17 @@ class _CheckoutState extends State<Checkout> {
                                                           child: Text(
                                                             receipt
                                                                 .items![index]
-                                                                .quantity
+                                                                .itemNumber
                                                                 .toString(),
                                                             style: const TextStyle(
                                                                 color: Colors
                                                                     .black,
                                                                 fontSize: 12,
+                                                                fontFamily:
+                                                                    'Oswald',
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .bold),
+                                                                        .w500),
                                                           ),
                                                         ),
                                                       ],
@@ -242,21 +260,23 @@ class _CheckoutState extends State<Checkout> {
                                                 ),
                                                 const Spacer(),
                                                 const Text(
-                                                  "Price: Ksh",
+                                                  "Price: Ksh ",
                                                   style: TextStyle(
                                                       color: Colors.black,
                                                       fontSize: 15,
+                                                      fontFamily: 'Oswald',
                                                       fontWeight:
-                                                          FontWeight.bold),
+                                                          FontWeight.w500),
                                                 ),
                                                 Text(
-                                                  receipt.items![index].amount
+                                                  receipt.items![index].price
                                                       .toString(),
                                                   style: const TextStyle(
                                                       color: Colors.black,
+                                                      fontFamily: 'Oswald',
                                                       fontSize: 15,
                                                       fontWeight:
-                                                          FontWeight.bold),
+                                                          FontWeight.w500),
                                                 ),
                                               ],
                                             ));
@@ -289,7 +309,8 @@ class _CheckoutState extends State<Checkout> {
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 15,
-                                      fontWeight: FontWeight.w600),
+                                      fontFamily: 'Oswald',
+                                      fontWeight: FontWeight.w500),
                                 ),
                               ),
                               Container(
@@ -300,7 +321,8 @@ class _CheckoutState extends State<Checkout> {
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 12,
-                                      fontWeight: FontWeight.w600),
+                                      fontFamily: 'Oswald',
+                                      fontWeight: FontWeight.w500),
                                 ),
                               ),
                               Container(
@@ -311,7 +333,8 @@ class _CheckoutState extends State<Checkout> {
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 16,
-                                      fontWeight: FontWeight.bold),
+                                      fontFamily: 'Oswald',
+                                      fontWeight: FontWeight.w500),
                                 ),
                               ),
                             ],
@@ -325,12 +348,13 @@ class _CheckoutState extends State<Checkout> {
                                 Container(
                                   padding:
                                       const EdgeInsets.only(left: 15, top: 5),
-                                  child: const Text(
-                                    "Ksh 1000.00",
-                                    style: TextStyle(
+                                  child: Text(
+                                    "Ksh ${receipt.receiptTotal}.00",
+                                    style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 15,
-                                        fontWeight: FontWeight.w600),
+                                        fontFamily: 'Oswald',
+                                        fontWeight: FontWeight.w500),
                                   ),
                                 ),
                                 Container(
@@ -341,18 +365,20 @@ class _CheckoutState extends State<Checkout> {
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 12,
-                                        fontWeight: FontWeight.w600),
+                                        fontFamily: 'Oswald',
+                                        fontWeight: FontWeight.w500),
                                   ),
                                 ),
                                 Container(
                                   padding:
                                       const EdgeInsets.only(left: 15, top: 20),
-                                  child: const Text(
-                                    "Ksh 1025.00",
-                                    style: TextStyle(
+                                  child: Text(
+                                    "Ksh ${receipt.receiptTotal}.00",
+                                    style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 16,
-                                        fontWeight: FontWeight.bold),
+                                        fontFamily: 'Oswald',
+                                        fontWeight: FontWeight.w500),
                                   ),
                                 )
                               ],
