@@ -2,6 +2,7 @@ import 'package:eazz/Menu/menu.dart';
 import 'package:eazz/MyCode/mycode.dart';
 import 'package:eazz/Payment/payment.dart';
 import 'package:eazz/Receipts/receipts.dart';
+import 'package:eazz/Services/Receipt/receipt_service.dart';
 import 'package:eazz/Services/User/user_service.dart';
 import 'package:eazz/Transfer/transfer.dart';
 import 'package:eazz/WithDraw/withdraw.dart';
@@ -16,6 +17,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    Userservice().getProfile();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -50,12 +57,29 @@ class _HomePageState extends State<HomePage> {
                       child: const Menu()));
             },
             icon: Container(
-              padding: const EdgeInsets.only(left: 15),
+              padding: EdgeInsets.zero,
+              decoration: BoxDecoration(
+                  color: Colors.black, borderRadius: BorderRadius.circular(20)),
               width: 30,
               height: 30,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
+              child: FutureBuilder(
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Center(
+                        child: Text(
+                      snapshot.data!.username.substring(0, 2).toUpperCase(),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                          fontSize: 10,
+                          fontFamily: 'Oswald',
+                          fontWeight: FontWeight.normal),
+                    ));
+                  } else {
+                    return const Text('');
+                  }
+                },
+                future: Userservice().getProfile(),
               ),
             )),
         actions: [
@@ -397,74 +421,187 @@ class _HomePageState extends State<HomePage> {
                           ))
                     ],
                   ),
-                  SizedBox(
-                    width: size.width,
-                    child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(20),
-                              width: 40,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 12),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Text(
-                                    "Statements",
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: 'Oswald',
-                                        color: Color.fromARGB(255, 99, 99, 99),
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  Text(
-                                    "12345",
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontFamily: 'Oswald',
-                                        color: Color.fromARGB(255, 99, 99, 99),
-                                        fontWeight: FontWeight.w200),
-                                  )
-                                ],
-                              ),
-                            ),
-                            const Spacer(),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                const Text(
-                                  "-Ksh 200.00",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontFamily: 'Oswald',
-                                      color: Color.fromARGB(255, 99, 99, 99),
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                Text(
-                                  "${time.day}th ${months[currentMon - 1]} ${time.year}.",
-                                  style: const TextStyle(
-                                      fontSize: 12,
-                                      fontFamily: 'Oswald',
-                                      color: Color.fromARGB(255, 99, 99, 99),
-                                      fontWeight: FontWeight.w200),
-                                )
-                              ],
-                            )
-                          ],
-                        )),
-                  ),
+                  FutureBuilder(
+                      future: ReceiptService().getStatements(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, index) {
+                                return SizedBox(
+                                  width: size.width,
+                                  child: Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.all(20),
+                                            width: 40,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                              color: Colors.black,
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            child: Text(
+                                              "${snapshot.data![index].storeName?.substring(0, 2).toUpperCase()}",
+                                              textAlign: TextAlign.center,
+                                              style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 10,
+                                                  fontFamily: 'Oswald',
+                                                  fontWeight:
+                                                      FontWeight.normal),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 12),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "${snapshot.data![index].storeName}",
+                                                  style: const TextStyle(
+                                                      fontSize: 16,
+                                                      fontFamily: 'Oswald',
+                                                      color: Color.fromARGB(
+                                                          255, 99, 99, 99),
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ),
+                                                Text(
+                                                  "${snapshot.data![index].receiptNumber}",
+                                                  style: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontFamily: 'Oswald',
+                                                      color: Color.fromARGB(
+                                                          255, 99, 99, 99),
+                                                      fontWeight:
+                                                          FontWeight.w200),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          const Spacer(),
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                "-Ksh ${snapshot.data![index].receiptTotal}",
+                                                style: const TextStyle(
+                                                    fontSize: 16,
+                                                    fontFamily: 'Oswald',
+                                                    color: Color.fromARGB(
+                                                        255, 99, 99, 99),
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                              Text(
+                                                "${time.day}th ${months[currentMon - 1]} ${time.year}.",
+                                                style: const TextStyle(
+                                                    fontSize: 12,
+                                                    fontFamily: 'Oswald',
+                                                    color: Color.fromARGB(
+                                                        255, 99, 99, 99),
+                                                    fontWeight:
+                                                        FontWeight.w200),
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      )),
+                                );
+                              });
+                        } else {
+                          return SizedBox(
+                            width: size.width,
+                            child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.all(20),
+                                      width: 40,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black,
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 12),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: const [
+                                          Text(
+                                            "No Statements",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                fontFamily: 'Oswald',
+                                                color: Color.fromARGB(
+                                                    255, 99, 99, 99),
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          Text(
+                                            "None",
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontFamily: 'Oswald',
+                                                color: Color.fromARGB(
+                                                    255, 99, 99, 99),
+                                                fontWeight: FontWeight.w200),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: const [
+                                        Text(
+                                          "-Ksh 0",
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontFamily: 'Oswald',
+                                              color: Color.fromARGB(
+                                                  255, 99, 99, 99),
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        Text(
+                                          "No date.",
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              fontFamily: 'Oswald',
+                                              color: Color.fromARGB(
+                                                  255, 99, 99, 99),
+                                              fontWeight: FontWeight.w200),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                )),
+                          );
+                        }
+                      }),
                   Row(
                     children: const [
                       Padding(
