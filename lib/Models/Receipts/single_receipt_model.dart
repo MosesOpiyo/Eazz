@@ -2,23 +2,23 @@
 
 class SingleReceiptResponseModel {
   String? receiptNumber;
-  String? server;
-  int? customerId;
-  String? customerName;
+  String? storeName;
+  String? serverName;
+  int? receiptTotal;
   List<Items>? items;
 
   SingleReceiptResponseModel(
       {this.receiptNumber,
-      this.server,
-      this.customerId,
-      this.customerName,
+      this.storeName,
+      this.serverName,
+      this.receiptTotal,
       this.items});
 
   SingleReceiptResponseModel.fromJson(Map<String, dynamic> json) {
     receiptNumber = json['receipt_number'];
-    server = json['server'];
-    customerId = json['customer_id'];
-    customerName = json['customer_name'];
+    storeName = json['store_name'];
+    serverName = json['server_name'];
+    receiptTotal = json['total'];
     if (json['items'] != null) {
       items = <Items>[];
       json['items'].forEach((v) {
@@ -30,9 +30,9 @@ class SingleReceiptResponseModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['receipt_number'] = this.receiptNumber;
-    data['server'] = this.server;
-    data['customer_id'] = this.customerId;
-    data['customer_name'] = this.customerName;
+    data['store_name'] = this.storeName;
+    data['server_name'] = this.serverName;
+    data['total'] = this.receiptTotal;
     if (this.items != null) {
       data['items'] = this.items!.map((v) => v.toJson()).toList();
     }
@@ -42,22 +42,22 @@ class SingleReceiptResponseModel {
 
 class Items {
   String? name;
-  int? quantity;
-  int? amount;
+  int? itemNumber;
+  int? price;
 
-  Items({this.name, this.quantity, this.amount});
+  Items({this.name, this.itemNumber, this.price});
 
   Items.fromJson(Map<String, dynamic> json) {
     name = json['name'];
-    quantity = json['quantity'];
-    amount = json['amount'];
+    itemNumber = json['item_number'];
+    price = json['price'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['name'] = this.name;
-    data['quantity'] = this.quantity;
-    data['amount'] = this.amount;
+    data['item_number'] = this.itemNumber;
+    data['price'] = this.price;
     return data;
   }
 }
